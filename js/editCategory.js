@@ -82,7 +82,6 @@ function editCategory() {
   async function mount(id) {
     if (id) {
       btnSave.dataset.id = id
-      section.querySelector("tbody").innerHTML = ''
       const data = await getCategory(id);
       let elems = createRows(data);
    
@@ -93,12 +92,12 @@ function editCategory() {
       btnSave.dataset.id = ''
       section.querySelector(".edit__title").textContent =
         "Добавить новую категорию";
-      section.querySelector("tbody").innerHTML = "";
       changeTitle("Новая категория");
     }
     mainROOT.append(section);
   }
   function unmount() {
+    section.querySelector("tbody").innerHTML = ''
     section.remove();
   }
   return { mount, unmount, btnCancel, btnSave, tBody ,h2};

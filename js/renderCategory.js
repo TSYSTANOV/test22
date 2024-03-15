@@ -44,13 +44,13 @@ async function renderCategory() {
 
   function mount(array) {
     if(array){
-    categoryList.innerHTML = ''
     elements = createCategory(array);
     categoryList.append(...elements);
     }
     mainROOT.append(section);
   }
   function unmount() {
+    categoryList.innerHTML = ''
     section.remove();
   }
   return { mount, unmount, categoryList };

@@ -20,8 +20,6 @@ function renderCards() {
   async function mount(id) {
     const data = await getCategory(id);
     changeTitle(data.title);
-    section.querySelector(".container").innerHTML = ''
-    section.querySelector('.container').append(btnReturn)
     
     let cards = renderBtnCard(data.pairs);
     section.querySelector(".container").append(cards);
@@ -73,6 +71,8 @@ function renderCards() {
   }
 
   function unmount() {
+    section.querySelector(".container").innerHTML = ''
+    section.querySelector('.container').append(btnReturn)
     section.remove();
   }
   return { mount, unmount, btnReturn };
