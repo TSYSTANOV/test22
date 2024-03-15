@@ -54,10 +54,10 @@ function editCategory() {
   const tBody = document.createElement("tbody");
   table.append(tBody);
 
-  const tableRows = createRows();
-  if (tableRows.length > 0) {
-    tBody.append(...tableRows);
-  }
+  // const tableRows = createRows();
+  // if (tableRows.length > 0) {
+  //   tBody.append(...tableRows);
+  // }
 
   const btnWrapper = document.createElement("div");
   btnWrapper.className = "edit__btn-wrapper";
@@ -81,13 +81,16 @@ function editCategory() {
 
   async function mount(id) {
     if (id) {
+      btnSave.dataset.id = id
+      section.querySelector("tbody").innerHTML = ''
       const data = await getCategory(id);
       let elems = createRows(data);
-      console.log(elems);
+   
       section.querySelector(".edit__title").textContent = data.title;
       section.querySelector("tbody").append(...elems);
-      changeTitle("Категория");
+      changeTitle(`Категория: ${data.title}`);
     } else {
+      btnSave.dataset.id = ''
       section.querySelector(".edit__title").textContent =
         "Добавить новую категорию";
       section.querySelector("tbody").innerHTML = "";
@@ -98,7 +101,7 @@ function editCategory() {
   function unmount() {
     section.remove();
   }
-  return { mount, unmount, btnCancel };
+  return { mount, unmount, btnCancel, btnSave, tBody ,h2};
 }
 
 export { editCategory };

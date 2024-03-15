@@ -42,7 +42,12 @@ async function renderCategory() {
 
   section.append(container, categoryList);
 
-  function mount() {
+  function mount(array) {
+    if(array){
+    categoryList.innerHTML = ''
+    elements = createCategory(array);
+    categoryList.append(...elements);
+    }
     mainROOT.append(section);
   }
   function unmount() {

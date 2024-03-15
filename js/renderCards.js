@@ -12,19 +12,17 @@ function renderCards() {
   btnReturn.className = "card__return";
   btnReturn.setAttribute("aria-label", "Возврат к категориям");
 
-  // <button class="card__item">
-  //   <span class="card__front">улыбка</span>
-  //   <span class="card__back">smile</span>
-  // </button>
+
 
   container.append(btnReturn);
   section.append(container);
-  //   let number = 0;
+
   async function mount(id) {
     const data = await getCategory(id);
-    console.log(data.pairs);
     changeTitle(data.title);
-
+    section.querySelector(".container").innerHTML = ''
+    section.querySelector('.container').append(btnReturn)
+    
     let cards = renderBtnCard(data.pairs);
     section.querySelector(".container").append(cards);
 
@@ -32,6 +30,7 @@ function renderCards() {
   }
   function renderBtnCard(pairs) {
     let number = 0;
+    
     const btn = document.createElement("button");
     btn.className = "card__item";
     const spanFront = document.createElement("span");
@@ -43,6 +42,7 @@ function renderCards() {
     btn.append(spanFront, spanBack);
 
     btn.addEventListener("click", () => {
+ 
       if (btn.classList.contains("card__item_flipped")) {
         btn.classList.remove("card__item_flipped");
       } else {
@@ -50,29 +50,23 @@ function renderCards() {
         btn.style.pointerEvents = "none";
         setTimeout(() => {
           btn.classList.remove("card__item_flipped");
-
-          if (number === pairs.length) {
-            spanFront.innerHTML = "The end";
-            setTimeout(() => {
-              allClearBeforeRender([
-                editCategoryR,
-                categoryOnPageR,
-                cardsByCategory,
-              ]);
-              categoryOnPageR.mount();
-            }, 500);
-
-            return;
-          }
+          setTimeout(() => {
+            number++;
+            if (number >= pairs.length) {
+              spanFront.innerHTML = "The end";
+              setTimeout(() => {
+                btn.remove()
+                btnReturn.click()
+              }, 500);
+            }else{
+              spanFront.innerHTML = pairs[number][0];
+              setTimeout(() => {
+                spanBack.innerHTML = pairs[number][1];
+                btn.style.pointerEvents = "auto";
+              }, 100);
+            }
+          }, 100);
         }, 1500);
-        setTimeout(() => {
-          number++;
-          spanFront.innerHTML = pairs[number][0];
-        }, 800);
-        setTimeout(() => {
-          spanBack.innerHTML = pairs[number][1];
-          btn.style.pointerEvents = "auto";
-        }, 2000);
       }
     });
     return btn;
